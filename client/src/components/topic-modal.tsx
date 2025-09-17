@@ -52,22 +52,23 @@ export default function TopicModal({
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50" data-testid="topic-modal">
+          {/* Backdrop with blur effect */}
           <motion.div 
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
           />
           
-          <div className="fixed inset-0 flex items-center justify-center p-4">
-            <motion.div 
-              className="bg-card border border-border rounded-xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              transition={{ type: "spring", duration: 0.3 }}
-            >
+          {/* Bottom horizontal bar */}
+          <motion.div 
+            className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-md border-t border-border max-h-[70vh] overflow-hidden"
+            initial={{ opacity: 0, y: "100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "100%" }}
+            transition={{ type: "spring", duration: 0.4, damping: 25 }}
+          >
               {/* Modal Header */}
               <div className="border-b border-border p-6">
                 <div className="flex items-center justify-between">
@@ -86,9 +87,9 @@ export default function TopicModal({
                 </div>
               </div>
 
-              {/* Modal Content */}
-              <div className="overflow-y-auto max-h-[calc(90vh-140px)]">
-                <div className="p-6 space-y-6">
+            {/* Modal Content */}
+            <div className="overflow-y-auto max-h-[calc(70vh-140px)]">
+              <div className="p-6 space-y-6">
                   {/* Prerequisites Section */}
                   {topic.prerequisites.length > 0 && (
                     <div data-testid="prerequisites-section">
@@ -158,25 +159,24 @@ export default function TopicModal({
                     </div>
                   </div>
                 </div>
-              </div>
+            </div>
 
-              {/* Modal Footer */}
-              <div className="border-t border-border p-6">
-                <Button
-                  className={`w-full py-3 rounded-lg font-medium transition-all duration-300 ${
-                    isCompleted ? 
-                    'bg-primary/50 text-primary-foreground cursor-not-allowed' :
-                    'bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-[0_0_20px_rgba(0,255,136,0.3)]'
-                  }`}
-                  disabled={isCompleted}
-                  onClick={handleMarkComplete}
-                  data-testid="button-mark-complete"
-                >
-                  {isCompleted ? 'Completed ✓' : 'Mark as Complete'}
-                </Button>
-              </div>
-            </motion.div>
-          </div>
+            {/* Modal Footer */}
+            <div className="border-t border-border p-6">
+              <Button
+                className={`w-full py-3 rounded-lg font-medium transition-all duration-300 ${
+                  isCompleted ? 
+                  'bg-primary/50 text-primary-foreground cursor-not-allowed' :
+                  'bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-[0_0_20px_rgba(0,255,136,0.3)]'
+                }`}
+                disabled={isCompleted}
+                onClick={handleMarkComplete}
+                data-testid="button-mark-complete"
+              >
+                {isCompleted ? 'Completed ✓' : 'Mark as Complete'}
+              </Button>
+            </div>
+          </motion.div>
         </div>
       )}
     </AnimatePresence>
