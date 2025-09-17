@@ -124,20 +124,34 @@ export default function TopicModal({
                     <h3 className="text-lg font-medium mb-3 text-secondary">Learning Resources</h3>
                     <div className="space-y-2">
                       {topic.resources.map((resource, index) => {
-                        const isResourceCompleted = localResourceProgress[resource] || false;
+                        const isResourceCompleted = localResourceProgress[resource.name] || false;
                         return (
                           <div 
                             key={index}
                             className="flex items-center space-x-3 p-3 bg-muted/50 rounded-lg"
-                            data-testid={`resource-${resource.replace(/\s+/g, '-').toLowerCase()}`}
+                            data-testid={`resource-${resource.name.replace(/\s+/g, '-').toLowerCase()}`}
                           >
                             <Checkbox
                               checked={isResourceCompleted}
-                              onCheckedChange={(checked) => handleResourceChange(resource, !!checked)}
+                              onCheckedChange={(checked) => handleResourceChange(resource.name, !!checked)}
                               className="w-4 h-4"
-                              data-testid={`checkbox-resource-${resource.replace(/\s+/g, '-').toLowerCase()}`}
+                              data-testid={`checkbox-resource-${resource.name.replace(/\s+/g, '-').toLowerCase()}`}
                             />
-                            <span className="text-sm text-foreground">{resource}</span>
+                            <div className="flex-1">
+                              {resource.link ? (
+                                <a
+                                  href={resource.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-sm text-accent hover:text-accent/80 underline underline-offset-2"
+                                  data-testid={`link-resource-${resource.name.replace(/\s+/g, '-').toLowerCase()}`}
+                                >
+                                  {resource.name}
+                                </a>
+                              ) : (
+                                <span className="text-sm text-foreground">{resource.name}</span>
+                              )}
+                            </div>
                           </div>
                         );
                       })}
