@@ -70,9 +70,9 @@ export default function TopicModal({
             transition={{ type: "spring", duration: 0.4, damping: 25 }}
           >
               {/* Modal Header */}
-              <div className="border-b border-border p-6">
+              <div className="border-b border-border/30 px-8 py-6">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold text-foreground" data-testid="modal-title">
+                  <h2 className="text-2xl font-bold text-foreground" data-testid="modal-title">
                     {topic.topic}
                   </h2>
                   <Button 
@@ -89,18 +89,18 @@ export default function TopicModal({
 
             {/* Modal Content */}
             <div className="overflow-y-auto max-h-[calc(70vh-140px)]">
-              <div className="p-6 space-y-6">
+              <div className="px-8 py-6 space-y-8">
                   {/* Prerequisites Section */}
                   {topic.prerequisites.length > 0 && (
                     <div data-testid="prerequisites-section">
-                      <h3 className="text-lg font-medium mb-3 text-accent">Prerequisites</h3>
+                      <h3 className="text-lg font-semibold mb-4 text-foreground">Prerequisites</h3>
                       <div className="space-y-2">
                         {topic.prerequisites.map((prereq, index) => {
                           const isPrereqCompleted = completedTopics.has(prereq);
                           return (
                             <div 
                               key={index}
-                              className="flex items-center space-x-3 p-3 bg-muted/50 rounded-lg"
+                              className="flex items-center space-x-4 py-3 px-4 bg-transparent border border-border/20 rounded-lg hover:bg-muted/10 transition-colors"
                               data-testid={`prerequisite-${prereq.replace(/\s+/g, '-').toLowerCase()}`}
                             >
                               <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
@@ -108,7 +108,7 @@ export default function TopicModal({
                               }`}>
                                 {isPrereqCompleted && <Check className="w-3 h-3 text-primary-foreground" />}
                               </div>
-                              <span className={`text-sm ${
+                              <span className={`text-base font-medium ${
                                 isPrereqCompleted ? 'text-foreground' : 'text-muted-foreground'
                               }`}>
                                 {prereq}
@@ -122,20 +122,20 @@ export default function TopicModal({
 
                   {/* Resources Section */}
                   <div data-testid="resources-section">
-                    <h3 className="text-lg font-medium mb-3 text-secondary">Learning Resources</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-foreground">Learning Resources</h3>
                     <div className="space-y-2">
                       {topic.resources.map((resource, index) => {
                         const isResourceCompleted = localResourceProgress[resource.name] || false;
                         return (
                           <div 
                             key={index}
-                            className="flex items-center space-x-3 p-3 bg-muted/50 rounded-lg"
+                            className="group flex items-center space-x-4 py-4 px-4 bg-transparent border border-border/20 rounded-lg hover:bg-muted/10 hover:border-border/40 transition-all duration-200"
                             data-testid={`resource-${resource.name.replace(/\s+/g, '-').toLowerCase()}`}
                           >
                             <Checkbox
                               checked={isResourceCompleted}
                               onCheckedChange={(checked) => handleResourceChange(resource.name, !!checked)}
-                              className="w-4 h-4"
+                              className="w-5 h-5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                               data-testid={`checkbox-resource-${resource.name.replace(/\s+/g, '-').toLowerCase()}`}
                             />
                             <div className="flex-1">
@@ -144,13 +144,13 @@ export default function TopicModal({
                                   href={resource.link}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-sm text-accent hover:text-accent/80 underline underline-offset-2"
+                                  className="text-base font-medium text-accent hover:text-accent/80 transition-colors underline-offset-4 hover:underline"
                                   data-testid={`link-resource-${resource.name.replace(/\s+/g, '-').toLowerCase()}`}
                                 >
                                   {resource.name}
                                 </a>
                               ) : (
-                                <span className="text-sm text-foreground">{resource.name}</span>
+                                <span className="text-base font-medium text-foreground">{resource.name}</span>
                               )}
                             </div>
                           </div>
@@ -162,18 +162,18 @@ export default function TopicModal({
             </div>
 
             {/* Modal Footer */}
-            <div className="border-t border-border p-6">
+            <div className="border-t border-border/30 px-8 py-6">
               <Button
-                className={`w-full py-3 rounded-lg font-medium transition-all duration-300 ${
+                className={`w-full py-4 text-lg font-semibold rounded-xl transition-all duration-300 ${
                   isCompleted ? 
-                  'bg-primary/50 text-primary-foreground cursor-not-allowed' :
-                  'bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-[0_0_20px_rgba(0,255,136,0.3)]'
+                  'bg-primary/20 text-primary border border-primary/30 cursor-not-allowed' :
+                  'bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-[0_0_30px_rgba(34,197,94,0.4)] hover:scale-[1.02]'
                 }`}
                 disabled={isCompleted}
                 onClick={handleMarkComplete}
                 data-testid="button-mark-complete"
               >
-                {isCompleted ? 'Completed ✓' : 'Mark as Complete'}
+                {isCompleted ? '✓ Completed' : 'Mark as Complete'}
               </Button>
             </div>
           </motion.div>
