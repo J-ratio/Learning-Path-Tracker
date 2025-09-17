@@ -43,10 +43,11 @@ export function useLearningProgress(topics: Topic[]) {
 
   // Update resource progress
   const updateResourceProgress = (topicName: string, resourceName: string, isCompleted: boolean) => {
+    const topicProg = resourceProgress[topicName] || {};
     const newResourceProgress = {
       ...resourceProgress,
       [topicName]: {
-        ...resourceProgress[topicName],
+        ...topicProg,
         [resourceName]: isCompleted
       }
     };
